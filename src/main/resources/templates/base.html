@@ -1,14 +1,57 @@
-<div class="parent-fragment" th:fragment="parent(x,y)">
-    <h1> this is a parent fragment </h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem perspiciatis sed recusandae maxime tempora, expedita exercitationem! Vel amet eveniet 
-        voluptatibus a quo explicabo suscipit, ipsa pariatur officia accusantium fugit sunt?
-    </p>
-    <h1>Value of x is  <span th:text="${x}"></span></h1>
-    <h1>Value of y is  <span th:text="${y}"></span></h1>
-</div>
+<!DOCTYPE html>
+<html
+  class="light"
+  lang="en"
+  th:fragment="parent(content, title, script)"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:replace="${title}">SCM Base</title>
+    <!--  for CSS content -->
+    <link rel="stylesheet" data-th-href="@{./css/output.css}" />
 
-<div class ="content-parent-fragment" th:fragment="contest(content)">
-    <h1>This is content from base.html</h1>
-    <p>This is a paragraph from base.html file</p>
-    <div class ="content-fragment" th:replace="${content}"></div>
-</div>
+    <!-- for flowbite content -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
+<!-- for font awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+
+  <body class="dark:bg-gray-900 dark:text-white">
+    <!-- Common header for all the pages -->
+    <div th:replace="~{header :: navbar}"></div>
+
+    <div class="p-4">
+      <!-- this part will contain the main content from the about.html and services.html -->
+      <section th:replace="${content}">
+        <!-- Default content if none is provided -->
+        <h1>Welcome to the Base Template</h1>
+        <p>
+          This is the default content. Please provide specific content to
+          replace this section. Content will come from either about.html or
+          services.html
+        </p>
+      </section>
+    </div>
+
+    <!-- Common footer for all the pages -->
+    <footer class="bg-gray-800 text-white p-4 text-center">
+      <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </footer>
+
+    <!-- for flowbite body content -->
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script th:src="@{'./js/script.js'}"></script>
+    <th:block th:replace="${script}"></th:block>
+  </body>
+</html>

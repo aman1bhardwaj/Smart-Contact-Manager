@@ -1,39 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+  lang="en"
+  th:replace="~{base :: parent (~{::#content} , ~{::title} , ~{::#about-script})}"
+>
+  <head>
+    <title>About Page</title>
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
-    <link rel="stylesheet" data-th-href="@{./css/output.css}" />
-</head>
-
-<body>
-    <h1>This page is related to About sections</h1>
-    <p class="bg-black text-red-400 p-4 w-full">
-        This application is designed to provide users with comprehensive information about our services, team, and
-        mission.
-        On this About page, you will find details regarding our goals, values, and the expertise we bring to our work.
-        We strive to deliver quality solutions and maintain transparency in all our operations.
-    </p>
-    <!-- Host Tag for Parent Fragment -->
-    <div class="host-tag" th:insert="~{base :: parent('one', 'two')}">
-
-        <h1>This is from about.html file</h1>
-        <p>This is a paragraph from about.html file</p> 
+  <body>
+    <div id="content">
+      <h1>This is the About Page</h1>
+      <p>
+        Welcome to the about page of our website. Here you can find information
+        about us.
+      </p>
     </div>
-
-    <div class="new-tag" th:replace="${isLogin} ? ~{base ::contest(~{::section})} : ~{base :: parent('Not logged in','Never logged in ')}">
-        <section>
-            <h1>USER IS LOGGED IN</h1>
-            <p>This is a paragraph from about.html file where user is logged in.</p>
-            <button class="bg-blue-500 text-white p-2 rounded">Click Me</button>
-        </section>
-    </div>
-
-        <h1>This is from about.html file</h1>
-        <p>This is a paragraph from about.html file</p> 
-    </div>
-</body>
-
+    <script id="about-script">
+      console.log("This is the about page script");
+    </script>
+  </body>
 </html>
