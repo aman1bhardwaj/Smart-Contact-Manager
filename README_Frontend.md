@@ -40,7 +40,7 @@ If you want to include Flowbite in your HTML file:
 
 # Fragments in ThymeLeaf:
 
-NameSpace ussed in thymeleaf : <html xmlns:th="[http://www.thymeleaf.org](http://www.thymeleaf.org/)">
+NameSpace ussed in thymeleaf : <html xmlns:th="http://www.thymeleaf.org">
 
 ## Creation of Fragment:
 
