@@ -4,24 +4,18 @@ let currentTheme = getTheme();
 
 document.addEventListener("DOMContentLoaded", () => {
     changeTheme();
-    console.log("Document fully loaded");
-}
-);
-
-
-
+});
 
 function changeTheme() {
 
+        //set to Web Page
+    changePageTheme(currentTheme, "");
+
     //set the listener to change theme button
     const changeThemeButton = document.querySelector('#theme_change_button');
-
-    //set to Web Page
-    changePageTheme(currentTheme, currentTheme);
-
-    const oldTheme = currentTheme;
-
+ 
     changeThemeButton.addEventListener("click", (event) => {
+           let oldTheme = currentTheme;
         console.log("Theme change button clicked");
         if (currentTheme === 'Dark') {
             //theme to Light
@@ -30,6 +24,7 @@ function changeTheme() {
             //theme to Dark
             currentTheme = "Dark";
         }
+        console.log(currentTheme);
         changePageTheme(currentTheme, oldTheme);
     });
 }
@@ -40,8 +35,7 @@ function setTheme(theme) {
 
 function getTheme() {
     let theme = localStorage.getItem('theme');
-    if (theme == null) return 'Light';
-    else return theme;
+    return theme ? theme :"Light";
 }
 
 function changePageTheme(theme, oldTheme) {
@@ -50,12 +44,12 @@ function changePageTheme(theme, oldTheme) {
     setTheme(theme);
 
     //Remove the old theme and add the new theme to the web page
+    if(oldTheme){
     document.querySelector("html").classList.remove(oldTheme);
+    }
 
     document.querySelector("html").classList.add(theme);
 
-    console.log("Theme changed to " + theme);
-
+    //Change the button text
     document.querySelector('#theme_change_button').querySelector("span").textContent = theme == "Light" ? "Dark" : "Light";
-
 }

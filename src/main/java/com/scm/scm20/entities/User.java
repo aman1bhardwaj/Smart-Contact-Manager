@@ -6,6 +6,8 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
@@ -44,11 +46,16 @@ public class User {
     private String phoneNumber;
 
     // Information
-    private Boolean enabled = true;
-    private Boolean emailVerified = false;
-    private Boolean phoneNumberVerified = false;
+    @Builder.Default
+    private Boolean isenabled = false;
+    @Builder.Default
+    private Boolean isemailVerified = false;
+    @Builder.Default
+    private Boolean isphoneNumberVerified = false;
 
     // Self , google , facebook
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
     private Providers provider = Providers.SELF;
     private String providerId;
 
