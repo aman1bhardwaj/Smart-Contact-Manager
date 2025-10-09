@@ -199,6 +199,18 @@ Use @ModelAttribute to bind form data to a controller method.
             .profilePic(profile_pic) // default profile pic
             .build();
 
+                                        OR
+
+    Below also can be used to map the values from the form to the DTO.
+
+        User user = new User();
+        user.setName(userform.getName());
+        user.setEmail(userform.getEmail());
+        user.setPassword(userform.getPassword());
+        user.setAbout(userform.getAbout());
+        user.setPhoneNumber(userform.getPhoneNumber());
+        user.setProfilePic(profile_pic);
+
     Set default values using application.properties:
 
         properties
@@ -225,7 +237,74 @@ Use @ModelAttribute to bind form data to a controller method.
 
     Finally, in the controller, since the builder logic and service implementations were already in place, we simply injected UserService and called the saveUser method to persist the user data.
 
+# Sending message from the controller to the Form
+    we can use HttpSession object to send the message /project to the form using the set attribute method present in Http Session.
+
+        Message msg = new Message();
+        msg.setType(MessageType.green);
+        msg.setContent("Registered Successfully");
+
+        session.setAttribute("message", msg);
+
+# Receiving message at the Sign Up form from the controller
+
+    Since , object was passed from the controller , we will check if sessions contain any object or not and on teh basis of that we will take the object and use its properties in mapping details on teh form like below :
+
+        <div
+        th:if="${session.message}"
+        th:object="${session.message}"
+
+    Using the property :
+        <span th:text="*{content}"></span>
 
 
+# Dynamic message display on the basis of controller
+    In the previous explanation, we observed that the message was passed from the session to the form. However, we should not hardcode the message type in the template, as it may vary depending on the context (e.g., success(green) or failure(red)).
 
+    To implement a dynamic message display system — where the controller sends the message containig content (such as "success", "error", "info") and its type(green ,red , yellow) — we need to structure message.html to accept and respond to this type dynamically.
+
+            <div
+        th:if="${session.message}"
+        th:object="${session.message}"
+        th:fragment="messageBox"
+        th:classappend="*{'text-sm text-' + type + '-800 border border-' + type + '-300 rounded-lg bg-' + type + '-50 dark:bg-gray-800 dark:text-' + type + '-400 dark:border-' + type + '-800'}"
+        class="flex items-center p-4 mb-4"
+        role="alert"
+
+
+# Points to remeber while linking object from form to controller and back to form :
+
+    # Attribute name rules (Spring MVC + Thymeleaf) :
+        Thymeleaf expressions are case-sensitive. th:object="${userForm}" looks for a model attribute exactly named userForm.
+
+        Spring’s default name for an @ModelAttribute is the simple class name with its first letter lowercased. For class Userform or UserForm the default becomes userform (not userForm) unless you explicitly name it.
+
+        To avoid ambiguity, always pick one name and use it consistently in controller and template.
+
+    # How to make names match (recommended patterns)
+
+        Explicitly name the model attribute in the controller GET:
+
+            model.addAttribute("userForm", new Userform());
+
+            Template: <form th:object="${userForm}" ...>
+
+        Explicitly name the @ModelAttribute in the POST handler so Spring exposes the object and BindingResult under the same name:
+
+            @PostMapping("/do-register") public String submit(@Valid @ModelAttribute("userForm") Userform userForm, BindingResult br, Model model) { ... }
+
+        Ordering requirement:
+
+            BindingResult parameter must come immediately after the @ModelAttribute parameter in the method signature:
+
+                correct: (@ModelAttribute("userForm") Userform userForm, BindingResult br, ...)
+
+                incorrect: (BindingResult br, @ModelAttribute("userForm") Userform userForm, ...)
+
+            If you return the view on validation errors, you do not need to re-add the attribute if you used @ModelAttribute("userForm") correctly because Spring will expose both the target object and its BindingResult automatically. If you did not name the attribute explicitly, add it to the model before returning.
     
+
+# SPring Security :
+
+    We want some page canyt'be accessed directly typeing from the URL and can be accesses only after correct authentications/
+     For exx : user.dashboard , etc.

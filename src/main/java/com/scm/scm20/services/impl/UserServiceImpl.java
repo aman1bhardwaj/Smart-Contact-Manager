@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scm.scm20.entities.User;
-import com.scm.scm20.exceptions.ResourceNotFoundException;
+import com.scm.scm20.helper.exceptions.ResourceNotFoundException;
 import com.scm.scm20.repositories.UserRepo;
 import com.scm.scm20.services.UserService;
 
