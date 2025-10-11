@@ -7,9 +7,11 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.scm.scm20.entities.User;
+import com.scm.scm20.helper.AppConstants;
 import com.scm.scm20.helper.exceptions.ResourceNotFoundException;
 import com.scm.scm20.repositories.UserRepo;
 import com.scm.scm20.services.UserService;
@@ -20,6 +22,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
@@ -28,6 +33,8 @@ public class UserServiceImpl implements UserService {
         //Random id generate for user 
         String userId=UUID.randomUUID().toString();
         user.setUserId(userId);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoleList(List.of(AppConstants.ROLE_USER));
 
         logger.info("User saved successfully");
         return userRepo.save(user);
@@ -50,13 +57,13 @@ public class UserServiceImpl implements UserService {
         existingUser.setAbout(user.getAbout());
         existingUser.setPassword(user.getPassword());
         existingUser.setPhoneNumber(user.getPhoneNumber());
-        existingUser.setIsphoneNumberVerified(user.getIsphoneNumberVerified());
-        existingUser.setIsemailVerified(user.getIsemailVerified());
+        existingUser.setPhoneNumberVerified(user.getPhoneNumberVerified());
+        existingUser.setEmailVerified(user.getEmailVerified());
         existingUser.setProfilePic(user.getProfilePic());
         existingUser.setGender(user.getGender());
         existingUser.setProvider(user.getProvider());
         existingUser.setProviderId(user.getProviderId());
-        existingUser.setIsenabled(user.getIsenabled());
+        existingUser.setEnabled(user.isEnabled());
 
         User save = userRepo.save(existingUser);
 

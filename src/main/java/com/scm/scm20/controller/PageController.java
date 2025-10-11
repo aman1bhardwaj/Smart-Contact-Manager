@@ -27,6 +27,11 @@ public class PageController {
         @Value("${user.default.profile-pic}")
         private String profile_pic;
 
+    @GetMapping("/")
+    public String index(){
+        return "redirect:/home";
+    }
+
     @GetMapping("/home")
     public String getHome(Model model) {
 

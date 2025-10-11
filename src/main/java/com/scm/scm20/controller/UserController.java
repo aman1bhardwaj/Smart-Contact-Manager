@@ -3,6 +3,7 @@ package com.scm.scm20.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequestMapping("/user")
@@ -10,7 +11,7 @@ public class UserController {
 
     // user dashboard
 
-    @GetMapping("/dashboard")
+    @PostMapping("/dashboard")
     public String getdashboard() {
         return "user/dashboard";
     }
