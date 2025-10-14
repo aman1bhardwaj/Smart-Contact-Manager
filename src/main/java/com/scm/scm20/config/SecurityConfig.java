@@ -1,17 +1,14 @@
 package com.scm.scm20.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,6 +17,11 @@ import com.scm.scm20.services.impl.Security.SecurityCustomUserDetailsUserService
 
 @Configuration
 public class SecurityConfig {
+
+  @Autowired
+  private OAuthAuthenticationSuccessHandler oAuthAuthenticationSuccessHandler;
+
+  Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
   /*
    * We have created below method for testing purpose and understanding purpose.
@@ -48,6 +50,9 @@ public class SecurityConfig {
   // return inMemoryUserDetailsManager;
 
   // }
+
+  @Autowired
+  private SecurityCustomUserDetailsUserService securityCustomUserDetailsUserService;
 
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
@@ -85,6 +90,15 @@ public class SecurityConfig {
                                                         // to READ_ME for more details
     httpSecurity.logout(logout -> {
       logout.logoutUrl("/logout").logoutSuccessUrl("/login?logout=true");
+    });
+
+    // Below configurations is for Oauth of google and GIthub which we have configured while doing login.
+
+    // httpSecurity.oauth2Login(Customizer.withDefaults());
+
+    httpSecurity.oauth2Login(oauth ->{
+      oauth.loginPage("/login");
+      oauth.successHandler(oAuthAuthenticationSuccessHandler);
     });
 
     return httpSecurity.build();

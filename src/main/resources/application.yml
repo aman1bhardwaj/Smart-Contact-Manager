@@ -12,21 +12,30 @@
 # we want that all the users who sognUP are able to login. So , we will configure accordingly.
 # to do the changes we need to configure the requirement using java code for that config folder is created.
 
-# OAuth2 config : 
+# # OAuth2 config : 
 
-# Google configuration 
-spring :
-    security :
-        OAuth2 :
-            Client :
-                registration :
-                            google :
-                                client-name : google
-                                client-id : ${GOOGLE_CLIENT_ID}
-                                client-secret : ${GOOGLE_CLIENT_SECRET}
+# # Google configuration 
+# spring :
+#     security :
+#         OAuth2 :
+#             Client :
+#                 registration :
+#                             google :
+#                                 client-name : google
+#                                 client-id : ${GOOGLE_CLIENT_ID}
+#                                 client-secret : ${GOOGLE_CLIENT_SECRET}
+#                                 scope:
+#                                     - profile
+#                                     - email
 
+# # Git Hub Configuration :
 
-# Git Hub Configuration :
+#                             github :
+#                                 client-name : github
+#                                 client-id : ${GITHUB_CLIENT_ID}
+#                                 client-secret : ${GITHUB_CLIENT_SECRET}
+#                                 scope:
+#                                     - profile
+#                                     - email
 
-
-# facebook configuration :
+# # facebook configuration :

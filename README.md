@@ -602,3 +602,91 @@ You already have a User class with fields like email, password, enabled, etc.
 
 
 # OAuth2 : Login with google or github :-
+
+    Add the following dependency in pom.xml:
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+
+    Set up Google Cloud Console for OAuth:
+
+        Go to APIs & Services → OAuth consent screen.
+        Configure the App name, support email, scopes, and other required fields.
+        Create an OAuth Client ID:
+        
+            Application type: Web application
+            Add Authorized redirect URIs, e.g.:
+            http://localhost:8080/login/oauth2/code/google
+
+        Copy the Client ID and Client Secret.
+
+    Configure OAuth in your Spring Security filter chain:
+
+        Define the login page.
+        Configure an AuthenticationSuccessHandler to handle successful authentication.
+
+    Customize AuthenticationSuccessHandler:
+
+        Implement the AuthenticationSuccessHandler interface.
+        Override its methods to:
+
+            Retrieve user details from the authentication object.
+            Save user details to the database.
+            Redirect the user to a specific URL after successful authentication.
+
+# 🧩 What is a Principal in Spring Boot?
+
+    In Spring Boot / Spring Security, the term Principal represents the currently authenticated user — i.e., the person (or system) who is logged in and making the current request.
+
+    It comes from Java’s java.security.Principal interface, which defines one method:
+        public String getName();
+
+    That’s it — it’s a very simple representation of the identity of the user.
+
+    🧠 Why do we use Principal in Spring Boot?
+
+        When a user logs in (via form login, JWT token, OAuth2, etc.), Spring Security stores authentication details in a SecurityContext.
+        From that context, you can get the logged-in user in multiple ways — and Principal is one of the simplest.
+        It’s mainly used to:
+
+            Identify the logged-in user in a controller or service.
+            Access the username or user details.
+            Implement user-specific logic (for example, “show only that user’s data”).
+
+        🧱 Example: Using Principal in a Controller
+        import org.springframework.web.bind.annotation.GetMapping;
+        import org.springframework.web.bind.annotation.RestController;
+        import java.security.Principal;
+
+        @RestController
+        public class UserController {
+
+            @GetMapping("/user")
+            public String getUser(Principal principal) {
+                return "Hello, " + principal.getName();
+            }
+        }
+
+
+    ✅ What happens:
+
+    When a logged-in user sends a request to /user,
+    Spring Security automatically injects the Principal object,
+    principal.getName() gives you the username (from the authentication object).
+
+    ⚙️ Alternatives to Principal
+
+        Sometimes you’ll see these instead:
+
+        Type	                                            Description
+        Authentication	                                    Spring Security’s richer object containing roles, credentials, and details.
+        @AuthenticationPrincipal UserDetails user	        Directly injects your custom UserDetails object.
+
+            Example:
+
+            @GetMapping("/profile")
+            public String getProfile(@AuthenticationPrincipal UserDetails user) {
+                return "Welcome, " + user.getUsername();
+            }
