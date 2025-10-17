@@ -104,4 +104,17 @@ public class UserServiceImpl implements UserService {
         return userRepo.findAll();
     }
 
+    @Override
+    public Optional<User> getUserByProviderId(String providerId) {
+        logger.info("Fetching data from provider Id {}",providerId);
+        return userRepo.findByProviderId(providerId);
+    }
+
+    @Override
+    public Optional<User> getuserByEmailId(String email) {
+
+        User userEmail = userRepo.findByEmail(email).orElse(null);
+         return Optional.ofNullable(userEmail);
+    }
+
 }

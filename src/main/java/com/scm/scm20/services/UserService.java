@@ -21,5 +21,9 @@ public interface UserService {
 
     List<User> getAllUsers();
 
+    Optional<User> getUserByProviderId(String providerId);
+
+    Optional<User> getuserByEmailId(String email);
+
     // other methods can be added below as per requirement or business or service logic
 }

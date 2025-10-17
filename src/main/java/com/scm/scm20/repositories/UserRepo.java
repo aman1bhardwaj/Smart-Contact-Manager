@@ -7,9 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import com.scm.scm20.entities.User;
 
+
 @Repository
 public interface UserRepo extends JpaRepository<User,String>{
 
     Optional <User> findByEmail(String email);
+
+    Optional <User> findByProviderId(String providerId);
 
 }

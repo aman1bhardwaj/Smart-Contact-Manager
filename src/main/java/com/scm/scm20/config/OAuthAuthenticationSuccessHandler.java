@@ -70,8 +70,9 @@ public class OAuthAuthenticationSuccessHandler implements AuthenticationSuccessH
         user.setEnabled(true);
         user.setAbout("Login done with " + authorizedClientRegistrationId);
         if (authorizedClientRegistrationId.equalsIgnoreCase("google")) {
-
-            user.setEmail(oAuthUser.getAttribute("email"));
+            
+            email=oAuthUser.getAttribute("email");
+            user.setEmail(email);
             user.setName(oAuthUser.getAttribute("name"));
             user.setProfilePic(oAuthUser.getAttribute("picture"));
             user.setPassword("Google password");
@@ -81,7 +82,7 @@ public class OAuthAuthenticationSuccessHandler implements AuthenticationSuccessH
         } else if (authorizedClientRegistrationId.equalsIgnoreCase("github")) {
 
             email = oAuthUser.getAttribute("email") != null ? oAuthUser.getAttribute("email")
-                    : oAuthUser.getAttribute("login");
+                    : oAuthUser.getAttribute("login").toString() + "@gmail.com";
             user.setEmail(email);
             user.setName(oAuthUser.getAttribute("login"));
             user.setProfilePic(oAuthUser.getAttribute("picture"));

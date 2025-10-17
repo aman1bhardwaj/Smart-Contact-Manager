@@ -690,3 +690,5 @@ You already have a User class with fields like email, password, enabled, etc.
             public String getProfile(@AuthenticationPrincipal UserDetails user) {
                 return "Welcome, " + user.getUsername();
             }
+
+

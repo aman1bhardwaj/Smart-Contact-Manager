@@ -16,11 +16,11 @@
     />
 
     <!--  for CSS content -->
-    <link rel="stylesheet" data-th-href="@{./css/output.css}" />
+    <link rel="stylesheet" th:href="@{/css/output.css}" />
 
     <!-- for Google Oauth2 Css -->
-     <link rel="stylesheet" th:href="@{./css/style.css}">
-    
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+
     <!-- for font awesome -->
     <link
       rel="stylesheet"
@@ -33,7 +33,22 @@
 
   <body class="dark:bg-gray-900 bg-gray-100 dark:text-white">
     <!-- Common header for all the pages -->
-    <div th:replace="~{header :: navbar}"></div>
+
+    <div th:if="${loggedInUser}">
+      <!-- This block will be executed if the user is currently logged in -->
+      <div th:replace="~{user/user_navbar :: user-navbar}"></div>
+    </div>
+    <div th:unless="${loggedInUser}">
+      <!-- this block will be executed normally for the home pages and other pages even if the user is not logged in -->
+      <div th:replace="~{header :: navbar}"></div>
+    </div>
+
+    <!-- Header creation finshed here  -->
+
+    <!-- If user is logged in we need a sidebar. below config is for sidebar only -->
+     <div th:if="${loggedInUser}">
+      <div th:replace="~{user/user_SideBar :: sidebar}"></div>
+     </div>
 
     <div class="p-4">
       <!-- this part will contain the main content from the about.html and services.html -->

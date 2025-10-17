@@ -13,8 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.scm.scm20.services.impl.Security.SecurityCustomUserDetailsUserService;
-
 @Configuration
 public class SecurityConfig {
 
@@ -51,9 +49,6 @@ public class SecurityConfig {
 
   // }
 
-  @Autowired
-  private SecurityCustomUserDetailsUserService securityCustomUserDetailsUserService;
-
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
       throws Exception {
@@ -88,9 +83,6 @@ public class SecurityConfig {
 
     httpSecurity.csrf(AbstractHttpConfigurer::disable); // Not recommeneded disabling the csrf for security purposes go
                                                         // to READ_ME for more details
-    httpSecurity.logout(logout -> {
-      logout.logoutUrl("/logout").logoutSuccessUrl("/login?logout=true");
-    });
 
     // Below configurations is for Oauth of google and GIthub which we have configured while doing login.
 
@@ -99,6 +91,10 @@ public class SecurityConfig {
     httpSecurity.oauth2Login(oauth ->{
       oauth.loginPage("/login");
       oauth.successHandler(oAuthAuthenticationSuccessHandler);
+    });
+
+    httpSecurity.logout(logout -> {
+      logout.logoutUrl("/logout").logoutSuccessUrl("/login?logout=true");
     });
 
     return httpSecurity.build();

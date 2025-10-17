@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>This is dashboard page</h1>
-</body>
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{})}">
+  <head>
+    <title th:text="${loggedInUser.name} +'  Dashboard'">Profile Page</title>
+  </head>
+
+  <body>
+    <div th:if="${loggedInUser}">
+      <div th:replace="~{user/user_sideBar :: sidebar}"></div>
+    </div>
+    <section id="content" class="sm:pl-64 pt-16">
+      <div class="flex justify-center flex-col items-center">
+        <h1>This is the Dashboard Page</h1>
+        <p>
+          Welcome to the Dashboard page of our website. Here you can find the
+          latest updates and featured content.
+        </p>
+      </div>
+    </section>
+    <script>
+      console.log("Profile Page");
+    </script>
+  </body>
 </html>
