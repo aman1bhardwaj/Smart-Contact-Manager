@@ -28,7 +28,7 @@ public class RootController {
 
         if(authentication == null) return ;
 
-        String username = Helper.getDetailsAndEmailofLoggedInUser(authentication);
+        String username = Helper.getUsernameOfLoggedInUser(authentication);
 
         logger.info("add users to all route  {}" ,username );
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Helper {
 
-    public static String getDetailsAndEmailofLoggedInUser(Authentication authentication) {
+    public static String getUsernameOfLoggedInUser(Authentication authentication) {
 
         // now we need to differnetiate the logged in user is from google or github or
         // normal login using email id and password

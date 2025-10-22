@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  th:replace="~{base :: parent(~{::#content},~{::title},~{::socialProfileScript})}"
+>
+  <head>
+    <title th:text="${loggedInUser.name} +'  SCM'">Contact Page</title>
+  </head>
+
+  <body>
+    <div th:if="${loggedInUser}">
+      <div th:replace="~{user/user_sideBar :: sidebar}"></div>
+    </div>
+
+    <!-- Main Content  -->
+
+    <div id="content" class="sm:pl-64 pt-16">
+      <div class="flex justify-center flex-col items-center">
+        <div class="grid grid-cols-12">
+          <div class="col-span-3"></div>
+          <div class="col-span-12 md:col-span-6">
+            <div
+              class="card block p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+            >
+              <h1 class="text-center text-2xl font-semibold">
+                Add New Contact
+              </h1>
+              <p class="text-gray-500 pt-2">
+                All contacts created here will be stored on the cloud and you
+                can direct email this client from scm...
+              </p>
+
+              <!-- Form creation starts -->
+               <div th:replace="~{message :: messageBox}"></div>
+              <form
+                th:action="@{/contact/process_contact}"
+                method="post"
+                th:object="${contactForm}"
+                class="mt-8"
+              >
+                <!-- Name field  -->
+
+                <div class="mb-3">
+                  <label
+                    for="name"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Contact Name</label
+                  >
+                  <div class="relative mb-6">
+                    <div
+                      class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                    >
+                      <i class="fa-solid fa-user w-4 h-4"></i>
+                    </div>
+                    <input
+                      th:field="*{name}"
+                      type="text"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Example example"
+                    />
+                  </div>
+                </div>
+
+                <!-- Email field  -->
+
+                <div class="mb-3">
+                  <label
+                    for="email"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Contact Email</label
+                  >
+                  <div class="relative mb-6">
+                    <div
+                      class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                    >
+                      <i class="fa-solid fa-envelope w-4 h-4"></i>
+                    </div>
+                    <input
+                      type="email"
+                      th:field="*{email}"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="example@gmail.com"
+                    />
+                  </div>
+                </div>
+
+                <!-- Phone Number -->
+
+                <div class="mb-3">
+                  <label
+                    for="phoneNumber"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Phone Number</label
+                  >
+                  <div class="relative mb-6">
+                    <div
+                      class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                    >
+                      <i class="fa-solid fa-phone w-4 h-4"></i>
+                    </div>
+                    <input
+                      type="text"
+                      th:field="*{phoneNumber}"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="7894561230"
+                    />
+                  </div>
+                </div>
+
+                <!-- FOr contact Image -->
+
+                <div class="mb-3">
+                  <label
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    for="profileImage"
+                    >Contact Image</label
+                  >
+                  <input
+                    class="block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    id="profileImage"
+                    type="file"
+                  />
+                </div>
+
+                <!-- Address -->
+
+                <div class="mb-3">
+                  <label
+                    for="address"
+                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white text-center"
+                    >Address</label
+                  >
+
+                  <!-- Below is the grid created for storing address specifically -->
+                  <div class="grid grid-cols-4 gap-x-6">
+                    <!-- For storing street  -->
+                    <div class="col-span-2">
+                      <div class="mb-3">
+                        <label
+                          for="street"
+                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >Street</label
+                        >
+                        <div class="relative mb-6">
+                          <div
+                            class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                          >
+                            <i class="fa-solid fa-road w-4 h-4"></i>
+                          </div>
+                          <input
+                            type="text"
+                            th:field="*{street}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Enter Street"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- For storing city  -->
+                    <div class="col-span-2">
+                      <div class="mb-3">
+                        <label
+                          for="city"
+                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >City</label
+                        >
+                        <div class="relative mb-6">
+                          <div
+                            class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                          >
+                            <i class="fa-solid fa-city w-4 h-4"></i>
+                          </div>
+                          <input
+                            type="text"
+                            th:field="*{city}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Enter city"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- For storing state -->
+
+                    <div class="col-span-2">
+                      <div class="mb-3">
+                        <label
+                          for="state"
+                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >State</label
+                        >
+                        <div class="relative mb-6">
+                          <div
+                            class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                          >
+                            <i class="fa-solid fa-location-arrow w-4 h-4"></i>
+                          </div>
+                          <input
+                            type="text"
+                            th:field="*{state}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Enter State"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- For storing zipcode -->
+
+                    <div class="col-span-2">
+                      <div class="mb-3">
+                        <label
+                          for="zipCode"
+                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >ZipCode</label
+                        >
+                        <div class="relative mb-6">
+                          <div
+                            class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                          >
+                            <i
+                              class="fa-solid fa-location-crosshairs w-4 h-4"
+                            ></i>
+                          </div>
+                          <input
+                            type="number"
+                            th:field="*{zipcode}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Enter ZipCode"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- For storing Country -->
+
+                    <div class="mb-3 col-span-2">
+                      <label
+                        for="country"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >Country</label
+                      >
+                      <div class="relative mb-6">
+                        <div
+                          class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                        >
+                          <i class="fa-solid fa-globe w-4 h-4"></i>
+                        </div>
+                        <input
+                          type="text"
+                          th:field="*{country}"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          placeholder="Country"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- For description  -->
+                <div class="mb-3">
+                  <label
+                    for="description"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Description</label
+                  >
+                  <textarea
+                    th:field="*{description}"
+                    rows="4"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Write about your contact here..."
+                  ></textarea>
+                </div>
+
+                <!-- For favourite -->
+
+                <div class="mb-3">
+                  <div class="flex items-center">
+                    <input
+                      th:field="*{favourite}"
+                      type="checkbox"
+                      value=""
+                      class="w-4 h-4 text-blue-600 bg-gray-200 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-600 dark:border-gray-600"
+                    />
+                    <label
+                      for="favourite"
+                      class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                      >Favourite Contact</label
+                    >
+                  </div>
+                </div>
+
+                <!-- For social Links -->
+
+                <div id="socialProfilesContainer">
+                  <!-- Your existing block (unchanged except for name[] ) -->
+                  <div class="mb-3 social-profile-row">
+                    <div class="grid grid-cols-2 gap-6 items-center">
+                      <!-- Dropdown -->
+                      <div>
+                        <label
+                          for="platform"
+                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                          Social Profile
+                        </label>
+                        <div class="relative mb-6">
+                          <div
+                            class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-gray-500 dark:text-gray-400"
+                          >
+                            <i class="fa-solid fa-share-nodes w-4 h-4"></i>
+                          </div>
+                          <select
+                            id="platform"
+                            name="socialLinks[0].platform"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          >
+                            <option value="" disabled selected>
+                              Select Platform
+                            </option>
+                            <option
+                              th:each="p : ${platformValues}"
+                              th:value="${p}"
+                              th:text="${p}"
+                            ></option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <!-- Text input -->
+                      <div>
+                        <label
+                          for="socialLink"
+                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                          Profile Link
+                        </label>
+                        <div class="relative mb-6">
+                          <div
+                            class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-gray-500 dark:text-gray-400"
+                          >
+                            <i class="fa-solid fa-link w-4 h-4"></i>
+                          </div>
+                          <input
+                            type="url"
+                            id="socialLink"
+                            name="socialLinks[0].link"
+                            placeholder="Paste your social profile link here..."
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- + Add Button -->
+                <div class="flex justify-center mb-3">
+                  <button
+                    type="button"
+                    id="addProfileBtn"
+                    class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm"
+                  >
+                    + Add Another Profile
+                  </button>
+                </div>
+
+                <div class="button-container text-center">
+                  <button
+                    type="submit"
+                    class="px-3 py-2 rounded bg-black text-white dark:bg-blue-600 hover:dark::bg-blue-700"
+                  >
+                    Add Contact
+                  </button>
+                  <button
+                    type="reset"
+                    class="px-3 py-2 rounded bg-red-600 text-white dark:bg-blue-600 hover:dark::bg-red-700"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <th:block th:fragment="socialProfileScript">
+      <script th:src="@{/js/social-profile.js}"></script>
+    </th:block>
+  </body>
+</html>

@@ -1,5 +1,6 @@
 package com.scm.scm20.config;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,7 @@ public class SecurityConfig {
     httpSecurity.authorizeHttpRequests(authorize -> {
       // authorize.requestMatchers("/home" , "/register","/services").permitAll();
       authorize.requestMatchers("/user/**").authenticated();
+      authorize.requestMatchers("/contact/**").authenticated();
       authorize.anyRequest().permitAll();
     });
 
@@ -103,6 +105,11 @@ public class SecurityConfig {
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  public ModelMapper modelmapper(){
+    return new ModelMapper();
   }
 
 }
