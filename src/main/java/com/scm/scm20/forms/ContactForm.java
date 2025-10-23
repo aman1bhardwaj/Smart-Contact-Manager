@@ -44,8 +44,6 @@ public class ContactForm {
     
     private boolean favourite;
 
-
-    @NotBlank(message = "Upload Image")
     private MultipartFile profileImage;
 
 

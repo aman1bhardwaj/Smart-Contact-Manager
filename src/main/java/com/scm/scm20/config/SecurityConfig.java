@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.scm.scm20.entities.Social;
+
 @Configuration
 public class SecurityConfig {
 
@@ -53,7 +55,7 @@ public class SecurityConfig {
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
       throws Exception {
-        
+
     return authenticationConfiguration.getAuthenticationManager();
   }
 
@@ -74,7 +76,19 @@ public class SecurityConfig {
     // change the below statement.
     httpSecurity.formLogin(formLogin -> {
 
-      formLogin.loginPage("/login").loginProcessingUrl("/authenticate").successForwardUrl("/user/dashboard")  // This will forward as a POST request, so the target URL must be mapped using @PostMapping.
+      formLogin.loginPage("/login").loginProcessingUrl("/authenticate").successForwardUrl("/user/dashboard") // This
+                                                                                                             // will
+                                                                                                             // forward
+                                                                                                             // as a
+                                                                                                             // POST
+                                                                                                             // request,
+                                                                                                             // so the
+                                                                                                             // target
+                                                                                                             // URL must
+                                                                                                             // be
+                                                                                                             // mapped
+                                                                                                             // using
+                                                                                                             // @PostMapping.
           // .failureForwardUrl("/login?error=true") //This will forward a post requets as
           // well and we need to either configure config as post but will get issue for
           // GET mapping..recommend is to create anotehr postmapping as well in
@@ -86,11 +100,12 @@ public class SecurityConfig {
     httpSecurity.csrf(AbstractHttpConfigurer::disable); // Not recommeneded disabling the csrf for security purposes go
                                                         // to READ_ME for more details
 
-    // Below configurations is for Oauth of google and GIthub which we have configured while doing login.
+    // Below configurations is for Oauth of google and GIthub which we have
+    // configured while doing login.
 
     // httpSecurity.oauth2Login(Customizer.withDefaults());
 
-    httpSecurity.oauth2Login(oauth ->{
+    httpSecurity.oauth2Login(oauth -> {
       oauth.loginPage("/login");
       oauth.successHandler(oAuthAuthenticationSuccessHandler);
     });
@@ -108,8 +123,14 @@ public class SecurityConfig {
   }
 
   @Bean
-  public ModelMapper modelmapper(){
-    return new ModelMapper();
+  public ModelMapper modelmapper() {
+
+    ModelMapper modelMapper = new ModelMapper();
+    // String → Enum mapping
+    modelMapper.addConverter(ctx -> ctx.getSource() == null ? null : Social.valueOf(ctx.getSource().toUpperCase()),
+        String.class, Social.class);
+
+    return modelMapper;
   }
 
 }

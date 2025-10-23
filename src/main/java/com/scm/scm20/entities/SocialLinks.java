@@ -1,6 +1,8 @@
 package com.scm.scm20.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,7 +24,10 @@ public class SocialLinks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private Social name;
+
+    @Enumerated(EnumType.STRING)
+    private Social platform;
+    
     private String link;
 
     // ManyToOne with Contact

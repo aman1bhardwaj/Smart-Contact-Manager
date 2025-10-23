@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.scm.scm20.entities.Address;
 import com.scm.scm20.entities.Contact;
 import com.scm.scm20.entities.Social;
 import com.scm.scm20.entities.SocialLinks;
 import com.scm.scm20.entities.User;
+import com.scm.scm20.forms.AddressForm;
 import com.scm.scm20.forms.ContactForm;
 import com.scm.scm20.forms.SocialProfileForm;
 import com.scm.scm20.helper.Helper;
@@ -82,13 +84,17 @@ public class ContactController {
         for(SocialProfileForm link : contactform.getSocialLinks()){
 
             SocialLinks socialLink = modelMapper.map(link , SocialLinks.class);
+            logger.info("FORM LINK DATA: name={}, link={}", link.getPlatform(), link.getLink());
+             socialLink.setContact(contact);
             logger.info("Social link is : {}",socialLink);
             socialLinks.add(socialLink);
-
         }
 
         contact.setSocialLinks(socialLinks);
 
+        Address address = modelMapper.map(contactform.getAddressform(),Address.class);
+        contact.setAddress(address);
+        
         // Save the data in DB
 
         contactService.saveContact(contact);
@@ -101,7 +107,7 @@ public class ContactController {
 
         httpSession.setAttribute("message", msg);
 
-        return "redirect:/user/addContact";
+        return "redirect:/contact/addContact";
 
     }
 
